@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AFFA CORP</title>
+<meta name="description" content="Portofolio resmi AFFA CORP, perusahaan kreatif independen.">
+<meta name="theme-color" content="#101416">
+<!-- LOGO: ganti file di assets/images/affa-logo.png -->
+<link rel="icon" href="assets/images/affa-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="loading">
+
+<!-- ANIMASI PEMBUKA -->
+<div id="preloader" aria-hidden="true">
+  <div class="logo-crop"><img src="assets/images/affa-logo.png" alt=""></div>
+  <p class="pre-name" data-bind="company"></p>
+</div>
+
+<!-- NAVBAR UTAMA -->
+<header id="navbar" class="navbar">
+  <nav class="nav-inner" aria-label="Navigasi utama">
+    <button class="nav-btn" data-go="vision">Home</button>
+    <button class="nav-btn" data-go="projects">Projects</button>
+    <button class="nav-btn" data-go="founder">Founder</button>
+  </nav>
+</header>
+
+<!-- TOMBOL KEMBALI (hanya tampil di halaman detail novel) -->
+<button id="backBtn" class="back-btn" aria-label="Kembali ke Projects">
+  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+  <span>Back</span>
+</button>
+
+<!-- HALAMAN UTAMA -->
+<div id="page" class="page">
+  <main>
+    <section id="hero" class="hero">
+      <div class="logo-crop hero-logo hx" style="--i:0"><img src="assets/images/affa-logo.png" alt="Logo AFFA CORP"></div>
+      <h1 class="hero-title hx" style="--i:1" data-bind="company"></h1>
+      <p class="slogan hx" style="--i:2" data-bind="slogan"></p>
+      <p class="hero-desc hx" style="--i:3" data-bind="heroDesc"></p>
+      <button class="btn btn-primary hx" style="--i:4" data-go="vision">Explore Our Vision</button>
+      <span class="scroll-hint hx" style="--i:5" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+      </span>
+    </section>
+
+    <section id="vision" class="section">
+      <div class="container">
+        <header class="sec-head reveal">
+          <h2>Our Vision &amp; Mission</h2>
+          <p data-bind="visionIntro"></p>
+        </header>
+        <div class="cards" id="visionCards"></div>
+      </div>
+    </section>
+
+    <section id="projects" class="section alt">
+      <div class="container">
+        <header class="sec-head reveal">
+          <h2>Our Creative Projects</h2>
+          <p data-bind="projectsIntro"></p>
+        </header>
+        <div class="grid" id="projectGrid"></div>
+      </div>
+    </section>
+
+    <section id="founder" class="section">
+      <div class="container">
+        <header class="sec-head reveal">
+          <h2>The Founder</h2>
+          <p data-bind="founderIntro"></p>
+        </header>
+        <div class="founder" id="founderWrap"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="footer">
+    <div class="container">
+      <div class="foot-brand">
+        <div class="logo-crop foot-logo"><img src="assets/images/affa-logo.png" alt="Logo AFFA CORP"></div>
+        <strong data-bind="company"></strong>
+        <span data-bind="slogan"></span>
+      </div>
+      <nav class="foot-links" aria-label="Navigasi footer">
+        <button class="foot-link" data-go="vision">Home</button>
+        <button class="foot-link" data-go="projects">Projects</button>
+        <button class="foot-link" data-go="founder">Founder</button>
+      </nav>
+      <p class="copy">&copy; 2026 AFFA CORP. All rights reserved.</p>
+    </div>
+  </footer>
+</div>
+
+<!-- TEMPLATE DETAIL NOVEL (dipakai oleh semua novel, diisi dari script.js) -->
+<section id="detail" class="detail" aria-label="Detail novel">
+  <div class="container detail-grid">
+    <div class="d-cover" id="dCover"></div>
+    <div class="d-info">
+      <p class="d-genre" id="dGenre"></p>
+      <h2 id="dTitle"></h2>
+      <span class="status" id="dStatus"></span>
+      <h3>Sinopsis</h3>
+      <p id="dDesc"></p>
+      <h3>Deskripsi Lengkap</h3>
+      <p id="dDetails"></p>
+      <dl class="extra" id="dExtra"></dl>
+      <div class="d-actions">
+        <button class="btn btn-ghost" id="dBack">Back to Projects</button>
+        <span id="dReadSlot"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="script.js"></script>
+</body>
+</html>

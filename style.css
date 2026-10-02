@@ -1,0 +1,201 @@
+/* =========================================================
+   AFFA CORP — style.css
+   Pengaturan animasi & warna ada di :root (bagian paling atas)
+   ========================================================= */
+:root{
+  --bg:#101416; --bg2:#191F22; --card:#20282B;
+  --accent:#83C8D0; --accent2:#A4DDE1;
+  --text:#F0F2F2; --text2:#A7B0B3; --line:rgba(160,205,210,.18);
+  /* Pengaturan animasi: ubah di sini untuk durasi & jarak gerak */
+  --dur:.8s; --dist:28px; --ease:cubic-bezier(.22,.8,.26,1);
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Manrope',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--text);font:400 1rem/1.7 var(--sans);overflow-x:hidden;
+  background-image:radial-gradient(ellipse 70% 45% at 50% 0,rgba(131,200,208,.08),transparent 70%);background-repeat:no-repeat}
+body.loading{overflow:hidden}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+:focus-visible{outline:2px solid var(--accent2);outline-offset:3px}
+.container{width:min(1120px,100% - 3rem);margin-inline:auto}
+
+/* ---------- Keyframes ---------- */
+@keyframes rise{from{opacity:0;transform:translateY(var(--dist))}to{opacity:1;transform:none}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes shine{to{transform:translateX(100%)}}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+
+/* ---------- Logo (dipotong agar hanya emblem; teks logo diganti teks HTML) ---------- */
+.logo-crop{position:relative;width:min(240px,55vw);aspect-ratio:1;overflow:hidden;
+  -webkit-mask-image:radial-gradient(closest-side,#000 85%,transparent 100%);
+  mask-image:radial-gradient(closest-side,#000 85%,transparent 100%)}
+.logo-crop img{width:100%;height:100%;object-fit:cover;transform:scale(1.5);transform-origin:50% 20%}
+.logo-crop::after{content:"";position:absolute;inset:0;transform:translateX(-100%);
+  background:linear-gradient(110deg,transparent 40%,rgba(255,255,255,.3) 50%,transparent 60%)}
+
+/* ---------- Preloader ---------- */
+#preloader{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;
+  background:var(--bg);transition:opacity .6s ease,visibility .6s}
+#preloader.done{opacity:0;visibility:hidden}
+#preloader .logo-crop{opacity:0;animation:rise .8s var(--ease) .15s forwards}
+#preloader .logo-crop::after{animation:shine .9s ease-in-out .8s forwards}
+.pre-name{font:600 1.6rem var(--serif);letter-spacing:.35em;padding-left:.35em;opacity:0;animation:fade .8s ease 1.1s forwards}
+
+/* ---------- Tombol ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;min-height:48px;padding:0 1.7rem;border-radius:999px;
+  font-weight:600;font-size:.92rem;letter-spacing:.03em;border:1px solid var(--line);
+  transition:transform .25s,background .25s,color .25s,border-color .25s,box-shadow .25s}
+.btn:hover{transform:translateY(-2px)}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:var(--accent);border-color:var(--accent);color:#0c1113}
+.btn-primary:hover{background:var(--accent2);box-shadow:0 8px 28px rgba(131,200,208,.25)}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent2)}
+.btn[aria-disabled="true"]{opacity:.45;cursor:not-allowed;pointer-events:none}
+
+/* ---------- Navbar ---------- */
+.navbar{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:center;padding:.8rem 1rem;
+  transform:translateY(-110%);opacity:0;
+  transition:transform .55s var(--ease),opacity .55s,background .4s,border-color .4s}
+body.ready .navbar:not(.hide){transform:none;opacity:1}
+.navbar.solid{background:rgba(16,20,22,.85);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+body.detail-open .navbar{transform:translateY(-110%)!important;opacity:0!important;pointer-events:none}
+.nav-inner{display:flex;gap:.2rem}
+.nav-btn{position:relative;min-height:44px;padding:0 1.2rem;color:var(--text2);font-size:.9rem;letter-spacing:.06em;transition:color .25s}
+.nav-btn::after{content:"";position:absolute;left:1.2rem;right:1.2rem;bottom:6px;height:1px;background:var(--accent);
+  transform:scaleX(0);transition:transform .3s var(--ease)}
+.nav-btn:hover,.nav-btn.active{color:var(--accent2)}
+.nav-btn:hover::after,.nav-btn.active::after{transform:scaleX(1)}
+.nav-btn:active{transform:scale(.96)}
+
+/* ---------- Tombol kembali (detail) ---------- */
+.back-btn{position:fixed;top:1rem;left:1rem;z-index:60;display:none;align-items:center;gap:.5rem;min-height:46px;padding:0 1.2rem 0 .85rem;
+  border:1px solid var(--line);border-radius:999px;background:rgba(16,20,22,.85);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  transition:transform .25s,border-color .25s,color .25s}
+.back-btn:hover{border-color:var(--accent);color:var(--accent2);transform:translateX(-3px)}
+.back-btn:active{transform:scale(.95)}
+body.detail-open .back-btn{display:inline-flex;animation:fade .5s both}
+
+/* ---------- Hero ---------- */
+.hero{position:relative;min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:5.5rem 1.5rem 5rem}
+.hx{opacity:0}
+body.ready .hx{animation:rise var(--dur) var(--ease) both;animation-delay:calc(var(--i,0)*140ms)}
+.hero-logo{width:min(250px,52vw)}
+.hero-title{font:600 clamp(2.6rem,8vw,5.5rem)/1.05 var(--serif);letter-spacing:.14em;padding-left:.14em;
+  background:linear-gradient(180deg,#fff,#a9b3b6);-webkit-background-clip:text;background-clip:text;color:transparent}
+.slogan{color:var(--accent);letter-spacing:.22em;font-size:.95rem;margin:1.1rem 0 .8rem}
+.hero-desc{max-width:34rem;color:var(--text2);margin-bottom:2.2rem}
+.scroll-hint{position:absolute;bottom:1.6rem;left:0;right:0;display:flex;justify-content:center;color:var(--text2)}
+.scroll-hint svg{animation:bob 2.4s ease-in-out infinite}
+
+/* ---------- Section ---------- */
+.section{padding:7rem 0 5rem}
+.section.alt{background:var(--bg2);border-block:1px solid var(--line)}
+.sec-head{text-align:center;max-width:40rem;margin:0 auto 3.5rem}
+.sec-head h2{font:600 clamp(2rem,5vw,3.2rem)/1.15 var(--serif);letter-spacing:.03em}
+.sec-head h2::after{content:"";display:block;width:56px;height:1px;background:var(--accent);margin:1.1rem auto}
+.sec-head p{color:var(--text2)}
+
+/* ---------- Scroll reveal ---------- */
+.reveal{opacity:0;transform:translateY(var(--dist));
+  transition:opacity var(--dur) var(--ease),transform var(--dur) var(--ease),border-color .3s;
+  transition-delay:var(--d,0ms),var(--d,0ms),0ms}
+.reveal.in{opacity:1;transform:none}
+.reveal.out{opacity:0;transform:translateY(calc(var(--dist)*-.8))}
+
+/* ---------- Kartu Visi / Misi / Tujuan ---------- */
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.5rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:2rem}
+.card:hover{border-color:rgba(131,200,208,.45)}
+.card h3{font:600 1.8rem var(--serif);color:var(--accent2);margin-bottom:1rem;letter-spacing:.02em}
+.card p,.card li{color:var(--text2);font-size:.95rem}
+.card ul{list-style:none;display:grid;gap:.8rem}
+.card li{position:relative;padding-left:1.1rem}
+.card li::before{content:"";position:absolute;left:0;top:.7em;width:5px;height:5px;background:var(--accent);transform:rotate(45deg)}
+
+/* ---------- Gambar 3:4 (poster, cover, foto pendiri) ----------
+   GANTI GAMBAR: cukup timpa file di assets/images/ dengan nama yang sama.
+   Ukuran asli bebas; tampilan selalu 3:4 berkat aspect-ratio + object-fit. */
+.ph{position:relative;aspect-ratio:3/4;overflow:hidden;background:linear-gradient(160deg,#243035,#161c1f)}
+.ph img{width:100%;height:100%;object-fit:cover;object-position:center}
+.ph.missing img{display:none}
+.ph.missing::after{content:attr(data-label);position:absolute;inset:0;display:grid;place-items:center;padding:1.2rem;text-align:center;
+  font:600 1.3rem var(--serif);color:var(--text2);letter-spacing:.06em;
+  background:repeating-linear-gradient(135deg,transparent 0 14px,rgba(160,205,210,.05) 14px 15px)}
+
+/* ---------- Galeri novel ---------- */
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:3rem 2rem;max-width:880px;margin:0 auto}
+.novel-btn{display:block;width:100%;text-align:left}
+.novel-btn .ph{border:1px solid var(--line);border-radius:8px;transition:transform .5s var(--ease),border-color .3s,box-shadow .5s}
+.novel-btn img{transition:transform .8s var(--ease)}
+.novel-btn:hover .ph{transform:translateY(-4px);border-color:var(--accent);box-shadow:0 18px 40px rgba(0,0,0,.45)}
+.novel-btn:hover img{transform:scale(1.04)}
+.novel-btn:active .ph{transform:scale(.98)}
+.n-title{display:block;font:600 1.55rem/1.2 var(--serif);margin-top:1rem;transition:color .25s}
+.n-genre{display:block;color:var(--accent);font-size:.85rem}
+.novel-btn:hover .n-title{color:var(--accent2)}
+
+/* ---------- Founder ---------- */
+.founder{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:4rem;align-items:center;max-width:940px;margin:0 auto}
+.founder .ph{border:1px solid var(--line);border-radius:6px;box-shadow:0 0 0 8px var(--bg),0 0 0 9px var(--line)}
+.f-info h3{font:600 2.3rem/1.2 var(--serif)}
+.role{color:var(--accent);margin-bottom:1.2rem}
+.f-info p{color:var(--text2);margin-bottom:1rem;max-width:34rem}
+.f-info h4{font:600 1.3rem var(--serif);margin:1.6rem 0 .8rem;color:var(--accent2)}
+.chips{list-style:none;display:flex;flex-wrap:wrap;gap:.5rem}
+.chips li{padding:.3rem .9rem;border:1px solid var(--line);border-radius:999px;font-size:.85rem;color:var(--text2)}
+.social{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:1.6rem}
+.social .btn{min-height:44px;padding:0 1.3rem}
+
+/* ---------- Footer ---------- */
+footer{background:var(--bg2);border-top:1px solid var(--line);padding:3rem 0 1.8rem;text-align:center}
+.foot-brand{display:flex;flex-direction:column;align-items:center;gap:.2rem}
+.foot-brand span{color:var(--text2);font-size:.9rem}
+.foot-logo{width:76px;margin-bottom:.3rem}
+.foot-links{display:flex;justify-content:center;gap:.5rem;margin:1.4rem 0}
+.foot-link{min-height:44px;padding:0 1rem;color:var(--text2);transition:color .25s}
+.foot-link:hover{color:var(--accent2)}
+.copy{border-top:1px solid var(--line);padding-top:1.4rem;color:var(--text2);font-size:.8rem}
+
+/* ---------- Halaman utama <-> detail ---------- */
+.page{transition:opacity .28s ease}
+.page.fading{opacity:0}
+body.detail-open .page{display:none}
+.detail{display:none;min-height:100svh;padding:6.5rem 0 4rem}
+body.detail-open .detail{display:block}
+.detail-grid{display:grid;grid-template-columns:minmax(0,400px) minmax(0,1fr);gap:4rem;align-items:start;max-width:1000px}
+.d-cover .ph{border:1px solid var(--line);border-radius:8px;box-shadow:0 24px 60px rgba(0,0,0,.5)}
+body.detail-open .d-cover{animation:rise var(--dur) var(--ease) both}
+body.detail-open .d-info>*{animation:rise var(--dur) var(--ease) .3s both}
+.d-genre{color:var(--accent)}
+.d-info h2{font:600 clamp(2.2rem,5vw,3.4rem)/1.1 var(--serif);margin:.2rem 0 1rem}
+.status{display:inline-block;padding:.15rem .9rem;border:1px solid var(--accent);border-radius:999px;color:var(--accent2);font-size:.85rem}
+.d-info h3{font:600 1.35rem var(--serif);color:var(--accent2);margin:1.8rem 0 .5rem}
+#dDesc,#dDetails{color:var(--text2);white-space:pre-line;max-width:38rem}
+.extra{display:grid;gap:.4rem;margin-top:1.8rem;padding-top:1.2rem;border-top:1px solid var(--line);max-width:38rem}
+.extra div{display:flex;gap:1rem;font-size:.92rem}
+.extra dt{min-width:7rem;color:var(--text2)}
+.d-actions{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:2.2rem}
+
+/* ---------- Responsif ---------- */
+@media (max-width:900px){
+  .cards{grid-template-columns:1fr}
+  .founder,.detail-grid{grid-template-columns:1fr;gap:2.5rem}
+  .founder .ph,.d-cover{width:min(100%,340px);justify-self:center}
+}
+@media (max-width:640px){
+  .section{padding:5.5rem 0 3.5rem}
+  .grid{grid-template-columns:1fr;max-width:360px}
+  .nav-btn{padding:0 .9rem}
+  .nav-btn::after{left:.9rem;right:.9rem}
+  .card{padding:1.6rem}
+}
+
+/* ---------- Kurangi gerakan ---------- */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-delay:0ms!important;animation-iteration-count:1!important;
+    transition-duration:.01ms!important;transition-delay:0ms!important;scroll-behavior:auto!important}
+  .reveal,.reveal.out{opacity:1;transform:none}
+}
